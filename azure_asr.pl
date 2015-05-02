@@ -4,11 +4,11 @@
 #
 # TODO: convert to a Python version using urllib2
 #
-# 4/23/2013  This un-offical API still works.
+# 5/1/2015  make this work for the new MSFT Bing ASR API.
 #
 require LWP::UserAgent;
 
-my $url = "https://www.google.com/speech-api/v1/recognize?xjerr=1&client=chromium&lang=en-US";
+my $url = "https://speech.platform.bing.com/recognize";
 my $audio = "";
 
 open(FILE, "<" . $ARGV[0]);
@@ -20,7 +20,9 @@ close(FILE);
 
 my $ua = LWP::UserAgent->new;
 
-my $response = $ua->post($url, Content_Type => "audio/x-flac; rate=16000", Content => $audio);
+# TODO: how to add query parameters by using LWP?
+
+my $response = $ua->post($url, Content_Type => "audio/wav; rate=16000", Content => $audio);
 if ($response->is_success)
 {
     print $response->content;
